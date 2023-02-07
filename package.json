@@ -4,9 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "tsc": "npx tsc -project ./tsconfig.json -watch",
-        "main": "nodemon ./dist/src/index.js"
+        "main": "nodemon ./dist/index.js",
+        "test": "nodemon ./dist/tests.js"
     },
     "keywords": [],
     "author": "",
