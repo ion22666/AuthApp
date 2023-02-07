@@ -2,6 +2,8 @@ import * as argon2 from "argon2";
 import mongoose from "mongoose";
 import express from "express";
 import { consoleLogging } from "./middlewares.js";
+import loginRouter from "./routers/login.js";
+
 
 (async () => {
     // const hash = await argon2.hash("password", { hashLength: 200 });
@@ -12,35 +14,52 @@ import { consoleLogging } from "./middlewares.js";
     const app = express();
     app.use("", consoleLogging);
     app.use("/", express.static("dist/assets"));
-    
 
     app.get("/home", (req, res) => {
         res.send("Hello World!");
     });
 
-    app.get("/login", (req, res) => {
-        
+    app.use("/login", loginRouter);
+
+    app.get("/callback", (req, res) => {
+        res.json([req.params, req.query]);
     });
 
-    mongoose.set("strictQuery", false);
+    app.get("/login", (req, res) => {});
 
-    await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.wgurxzm.mongodb.net/?retryWrites=true&w=majority`, { dbName: "AuthApp" });
+    // mongoose.set("strictQuery", false);
 
-    type UserType = { username: string; password: string };
+    // await mongoose.connect(`mongodb+srv://2266db:2266@cluster0.wgurxzm.mongodb.net/?retryWrites=true&w=majority`, { dbName: "AuthApp" });
 
-    const UserSchema = new mongoose.Schema({
-        username: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-    });
+    type UserType = {
+        email: string;
+        username: string;
+        password: string;
+        oauth: {
+            google: {
+                email: string;
+                profile: string;
+            };
+            microsoft: {
+                email: string;
+                profile: string;
+            };
+        };
+    };
 
-    const User = mongoose.model("User", UserSchema);
+    // const UserSchema = new mongoose.Schema({
+    //     username: { type: String, required: true, unique: true },
+    //     password: { type: String, required: true },
+    // });
 
-    // User.create<UserType>({ username: "Giovanni", password: "password" });
-    // new User<UserType>({ username: "Giovanni", password: "password" }).save();
+    // const User = mongoose.model("User", UserSchema);
 
-    let r = await User.findOne({ username: "Giovanni" });
+    // // User.create<UserType>({ username: "Giovanni", password: "password" });
+    // // new User<UserType>({ username: "Giovanni", password: "password" }).save();
 
-    User.create(r);
+    // let r = await User.findOne({ username: "Giovanni" });
+
+    // User.create(r);
 
     app.listen(3000, () => {
         console.log(`Server is running on http://127.0.0.1:3000`);
