@@ -10,6 +10,6 @@ export const consoleLogging = (req, res, next) => {
     next();
 };
 export const loginMiddleware = (req, res, next) => {
-    if (!req.cookies.token)
+    if (!req.cookies)
         return res.redirect("/login");
 };

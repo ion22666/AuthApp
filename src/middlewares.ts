@@ -22,5 +22,5 @@ export const consoleLogging: Handler = (req, res, next) => {
 };
 
 export const loginMiddleware: Handler = (req, res, next) => {
-    if(!req.cookies.token)return res.redirect("/login");
+    if (!req.cookies) return res.redirect("/login");
 };

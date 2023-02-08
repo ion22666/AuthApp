@@ -18,12 +18,18 @@ import homeRouter from "./routers/home.js";
     const app = express();
     app.use("", consoleLogging);
     app.use("", express.json());
-    app.use("", loginMiddleware);
+
     app.use("/", express.static("dist/assets"));
-    
-    app.get("/home", homeRouter);
+
+    // login not required
     app.use("/login", loginRouter);
     app.use("/register", registerRouter);
+
+    // redirect to login if missing the cookie
+    app.use("", loginMiddleware);
+
+    // login required
+    app.get("/home", homeRouter);
 
     app.listen(3000, () => {
         console.log(`Server is running on http://127.0.0.1:3000`);
