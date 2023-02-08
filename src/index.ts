@@ -2,9 +2,10 @@ import * as argon2 from "argon2";
 import express from "express";
 
 import { makeConnections } from "./config/mongodb.js";
-import { consoleLogging } from "./middlewares.js";
+import { consoleLogging, loginMiddleware } from "./middlewares.js";
 import loginRouter from "./routers/login.js";
 import registerRouter from "./routers/register.js";
+import homeRouter from "./routers/home.js";
 
 (async () => {
     // const hash = await argon2.hash("password", { hashLength: 200 });
@@ -17,12 +18,10 @@ import registerRouter from "./routers/register.js";
     const app = express();
     app.use("", consoleLogging);
     app.use("", express.json());
+    app.use("", loginMiddleware);
     app.use("/", express.static("dist/assets"));
-
-    app.get("/home", (req, res) => {
-        res.send("Hello World!");
-    });
-
+    
+    app.get("/home", homeRouter);
     app.use("/login", loginRouter);
     app.use("/register", registerRouter);
 

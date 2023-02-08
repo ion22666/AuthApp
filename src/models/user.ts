@@ -1,23 +1,7 @@
 import mongoose from "mongoose";
 import { AuthAppDb } from "../config/mongodb.js";
 
-type UserType = {
-    email: string;
-    username: string;
-    password: string;
-    oauth: {
-        google: {
-            email: string;
-            profile: string;
-        };
-        microsoft: {
-            email: string;
-            profile: string;
-        };
-    };
-};
-
-const UserSchema = new mongoose.Schema<UserType>({
+const UserSchema = new mongoose.Schema<global.UserType>({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: false },
     password: { type: String, required: true },
@@ -35,4 +19,4 @@ const UserSchema = new mongoose.Schema<UserType>({
     },
 });
 
-export const User = AuthAppDb.model<UserType>("User", UserSchema);
+export const User = AuthAppDb.model<global.UserType>("User", UserSchema);

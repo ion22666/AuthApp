@@ -23,5 +23,6 @@
         "mongodb": "^4.13.0",
         "mongoose": "^6.9.0"
     },
-    "type": "module"
+    "type": "module",
+    "types": "./@types/index.d.ts"
 }

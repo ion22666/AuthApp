@@ -1,5 +1,5 @@
 import chalk from "chalk";
-export const consoleLogging = ((req, res, next) => {
+export const consoleLogging = (req, res, next) => {
     let start = performance.now();
     console.log(chalk.bold.bgHex("#262626")(chalk.blueBright("REQUEST  "), chalk.hex("#00ff00")(req.method.toUpperCase().padEnd(5, " ")), chalk.cyan(req.originalUrl.padEnd(48, " "))));
     res.on("finish", () => {
@@ -8,4 +8,8 @@ export const consoleLogging = ((req, res, next) => {
             .padStart(5, " ") + "ms")));
     });
     next();
-});
+};
+export const loginMiddleware = (req, res, next) => {
+    if (!req.cookies.token)
+        return res.redirect("/login");
+};
