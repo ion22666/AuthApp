@@ -1,19 +1,29 @@
 import mongoose from "mongoose";
 import { AuthAppDb } from "../config/mongodb.js";
 const UserSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    username: { type: String, required: true, unique: false },
-    password: { type: String, required: true },
+    email: { type: String, unique: true, sparse: true },
+    username: { type: String },
+    password: { type: String },
     oauth: {
-        type: {
-            google: {
-                email: { type: String, unique: true },
-                profile: { type: String },
-            },
-            microsoft: {
-                email: { type: String, unique: true },
-                profile: { type: String },
-            },
+        google: {
+            id: { type: String },
+            email: { type: String, unique: true, sparse: true },
+            verified_email: { type: String },
+            name: { type: String },
+            given_name: { type: String },
+            family_name: { type: String },
+            picture: { type: String },
+            locale: { type: String },
+        },
+        microsoft: {
+            id: { type: String },
+            email: { type: String, unique: true, sparse: true },
+            verified_email: { type: String },
+            name: { type: String },
+            given_name: { type: String },
+            family_name: { type: String },
+            picture: { type: String },
+            locale: { type: String },
         },
     },
 });

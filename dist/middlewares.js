@@ -1,4 +1,6 @@
 import chalk from "chalk";
+import { Session } from "./models/session.js";
+import { User } from "./models/user.js";
 export const consoleLogging = (req, res, next) => {
     let start = performance.now();
     console.log(chalk.bold.bgHex("#262626")(chalk.blueBright("REQUEST  "), chalk.hex("#00ff00")(req.method.toUpperCase().padEnd(5, " ")), chalk.cyan(req.originalUrl.padEnd(48, " "))));
@@ -9,7 +11,16 @@ export const consoleLogging = (req, res, next) => {
     });
     next();
 };
-export const loginMiddleware = (req, res, next) => {
-    if (!req.cookies)
+export const loginMiddleware = async (req, res, next) => {
+    if (!req.cookies.session_id)
         return res.redirect("/login");
+    let session = await Session.findById(req.cookies.session_id);
+    if (!session || Date.now() - session.createdAt > 3600000)
+        return res.redirect("/login");
+    let user = await User.findById(session.userId);
+    if (!user)
+        return res.redirect("/login");
+    req.user = user;
+    return next();
+    return res.json(await Session.findById(req.cookies.session_id));
 };

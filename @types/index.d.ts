@@ -1,18 +1,29 @@
 declare namespace global {
     type UserType = {
-        email: string;
-        username: string;
-        password: string;
-        oauth: {
-            google: {
+        email?: string;
+        username?: string;
+        password?: string;
+        oauth?: {
+            google?: {
+                id: string;
                 email: string;
-                profile: string;
+                verified_email: string;
+                name: string;
+                given_name: string;
+                family_name: string;
+                picture: string;
+                locale: string;
             };
-            microsoft: {
+            microsoft?: {
                 email: string;
                 profile: string;
             };
         };
+    };
+
+    type Session = {
+        userId: string;
+        createdAt: number;
     };
 }
 

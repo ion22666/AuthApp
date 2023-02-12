@@ -1,5 +1,6 @@
 import * as argon2 from "argon2";
 import express from "express";
+import CookieParser from "cookie-parser";
 
 import { makeConnections } from "./config/mongodb.js";
 import { consoleLogging, loginMiddleware } from "./middlewares.js";
@@ -13,7 +14,7 @@ import homeRouter from "./routers/home.js";
     // console.log(hash);
     // console.log(is_lvalid);
 
-    await makeConnections();
+    makeConnections();
 
     const app = express();
     app.use("", consoleLogging);
@@ -25,11 +26,12 @@ import homeRouter from "./routers/home.js";
     app.use("/login", loginRouter);
     app.use("/register", registerRouter);
 
+    app.use("", CookieParser());
     // redirect to login if missing the cookie
     app.use("", loginMiddleware);
 
     // login required
-    app.get("/home", homeRouter);
+    app.get("/", homeRouter);
 
     app.listen(3000, () => {
         console.log(`Server is running on http://127.0.0.1:3000`);
