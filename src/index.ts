@@ -9,16 +9,17 @@ import registerRouter from "./routers/register.js";
 import homeRouter from "./routers/home.js";
 
 (async () => {
-    // const hash = await argon2.hash("password", { hashLength: 200 });
-    // let is_lvalid = await argon2.verify(hash, "password");
-    // console.log(hash);
-    // console.log(is_lvalid);
-
     makeConnections();
 
     const app = express();
+
+    // Set EJS as the view engine
+    app.set("view engine", "ejs");
+    app.set("views", "src/views");
+
     app.use("", consoleLogging);
     app.use("", express.json());
+    app.use("", express.urlencoded({ extended: true }));
 
     app.use("/", express.static("dist/assets"));
 
