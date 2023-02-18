@@ -42,3 +42,5 @@ export const GoogleCLient = {
     redirect_uri: "http://localhost:3000/login/google",
     client_secret: "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",
 };
+// 24 hours
+export const SessionLifeTime = 24 * 60 * 60 * 1000;

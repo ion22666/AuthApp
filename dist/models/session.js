@@ -10,4 +10,8 @@ const SessionSchema = new mongoose.Schema({
         default: Date.now,
     },
 });
+SessionSchema.methods.refreshLifetime = async function () {
+    this.createdAt = Date.now();
+    await this.save();
+};
 export const Session = AuthAppDb.model("Session", SessionSchema);

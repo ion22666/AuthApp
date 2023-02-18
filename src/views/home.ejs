@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/styles/output.css" />
+  <title>Document</title>
+</head>
+
+<body style="background-color: #080710;" class="overflow-hidden  flex p-10 gap-10 flex-wrap items-stretch h-full">
+  <div class="absolute h-20 w-20 rounded-full bg-red-600 top-20 left-32 translate-x-full"></div>
+  <div class="absolute h-30 w-30 rounded-full bg-blue-600 top-0 left-full -translate-y-1/2"></div>
+  <div class="absolute h-40 w-40 rounded-full bg-green-500 top-full left-0 translate-y-full"></div>
+  <div class="absolute h-10 w-10 rounded-full bg-orange-500 top-full left-full -translate-y-1/2"></div>
+
+  <div class="flex-1 ">
+    <div class="border-white/10 border-2 backdrop-blur-sm w-full h-full rounded-lg w-1/1 flex flex-col flex-grow gap-1 p-10 justify-center items-center bg-white/10  ">
+      <img class="w-48 h-48 max-w-fit rounded-full" src="<%- user.picture || "https://www.refugee-action.org.uk/wp-content/uploads/2016/10/anonymous-user.png" %>" alt="">
+      <div class="text-base text-green-500"><%= user.username %></div>
+      <a class="text-red-500 font-black text-lg bg-orange-50 rounded-md hover:bg-slate-300 hover:px-3 duration-200 ease-linear py-0.5 px-2" href="/logout">Log out</a>
+    </div>
+  </div>
+  <div class="flex-1 border-white/10 border-2 backdrop-blur-sm w-full h-full rounded-lg w-1/1 flex flex-col flex-grow gap-1 p-10 justify-center items-center bg-white/10  ">
+    <div>Informations</div>
+    <div class="overflow-auto max-w-xs"><%- json %></div>
+  </div>
+</body>
+
+</html>

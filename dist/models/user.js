@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AuthAppDb } from "../config/mongodb.js";
+import { Session } from "./session.js";
 const UserSchema = new mongoose.Schema({
     email: { type: String, unique: true, sparse: true },
     username: { type: String },
@@ -15,16 +16,13 @@ const UserSchema = new mongoose.Schema({
             picture: { type: String },
             locale: { type: String },
         },
-        microsoft: {
-            id: { type: String },
-            email: { type: String, unique: true, sparse: true },
-            verified_email: { type: String },
-            name: { type: String },
-            given_name: { type: String },
-            family_name: { type: String },
-            picture: { type: String },
-            locale: { type: String },
-        },
+        microsoft: {},
     },
 });
+UserSchema.methods.clearSessions = async function () {
+    await Session.remove({ userId: this._id });
+};
+UserSchema.methods.createSession = async function () {
+    return (await Session.create({ userId: this._id }))._id.toString();
+};
 export const User = AuthAppDb.model("User", UserSchema);
